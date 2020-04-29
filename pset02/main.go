@@ -70,6 +70,31 @@ func BlockFromString(s string) (Block, error) {
 	return bl, nil
 }
 
+func BlockFrom(previousBlock Block, name string, targetBits uint8) Block {
+
+	var eventualBlock EventualBlock
+
+	eventualBlock.PrevHash = previousBlock.Hash()
+	eventualBlock.Name = name
+	eventualBlock.Nonce = "palanrandom"
+
+	return eventualBlock.Mine(targetBits)
+}
+
+type EventualBlock struct {
+	PrevHash Hash
+	Name     string
+	Nonce    string
+}
+
+func (self EventualBlock) Hash() Hash {
+	return sha256.Sum256([]byte(self.ToString()))
+}
+
+func (self EventualBlock) ToString() string {
+	return fmt.Sprintf("%x %s %s", self.PrevHash, self.Name, self.Nonce)
+}
+
 func main() {
 
 	fmt.Println("NameChain Miner v0.1")
@@ -83,8 +108,14 @@ func main() {
 	// tip you're mining off of if it has changed.
 
 	lastBlock, _ := GetTipFromServer()
-
 	fmt.Println("last block: " + lastBlock.ToString())
+
+	newBlock := BlockFrom(lastBlock, "palan", 8)
+	fmt.Println("new block:  " + newBlock.ToString())
+
+	newBlockHash := newBlock.Hash()
+	fmt.Println("new hash:   " + newBlockHash.ToString())
+
 
 	return
 }
