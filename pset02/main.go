@@ -72,7 +72,7 @@ func BlockFromString(s string) (Block, error) {
 
 func main() {
 
-	fmt.Printf("NameChain Miner v0.1\n")
+	fmt.Println("NameChain Miner v0.1")
 
 	// Your code here!
 
@@ -81,6 +81,10 @@ func main() {
 	// then submit to server.
 	// To reduce stales, poll the server every so often and update the
 	// tip you're mining off of if it has changed.
+
+	lastBlock, _ := GetTipFromServer()
+
+	fmt.Println("last block: " + lastBlock.ToString())
 
 	return
 }

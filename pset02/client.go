@@ -26,6 +26,10 @@ var (
 func GetTipFromServer() (Block, error) {
 	var bl Block
 
+	bl, err := BlockFromString("00000000722a3b3cabaac078bd4e15ce361312895cfef0494c9ffc75bedb82db adiabat 19579781213")
+
+	return bl, err
+
 	connection, err := net.Dial("tcp", serverHostname)
 	if err != nil {
 		return bl, err
